@@ -3,6 +3,8 @@ import requests
 import json
 from visualizations import create_visualizations
 
+#HIIIIIIIIIIIII
+
 def init_db():
     """Initialize the database with tables"""
     conn = sqlite3.connect('movies.db')
