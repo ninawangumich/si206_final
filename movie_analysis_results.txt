@@ -1,0 +1,202 @@
+US Action Movies Analysis Results
+===============================
+
+1. Yearly Statistics
+-----------------
+
+Year: 2024
+Number of Movies: 64
+Average TMDB Rating: 6.61
+Average Revenue: $108,187,982.98
+Average Budget: $41,266,390.62
+Profitable Movies: 26
+
+Year: 2023
+Number of Movies: 15
+Average TMDB Rating: 6.91
+Average Revenue: $235,898,851.47
+Average Budget: $95,520,000.00
+Profitable Movies: 9
+
+Year: 2022
+Number of Movies: 4
+Average TMDB Rating: 7.65
+Average Revenue: $1,292,545,106.00
+Average Budget: $235,000,000.00
+Profitable Movies: 4
+
+Year: 2021
+Number of Movies: 4
+Average TMDB Rating: 7.48
+Average Revenue: $636,769,298.00
+Average Budget: $137,500,000.00
+Profitable Movies: 3
+
+Year: 2019
+Number of Movies: 1
+Average TMDB Rating: 8.25
+Average Revenue: $2,799,439,100.00
+Average Budget: $356,000,000.00
+Profitable Movies: 1
+
+Year: 2018
+Number of Movies: 4
+Average TMDB Rating: 7.56
+Average Revenue: $870,799,770.75
+Average Budget: $142,000,000.00
+Profitable Movies: 4
+
+Year: 2015
+Number of Movies: 1
+Average TMDB Rating: 7.20
+Average Revenue: $1,515,400,000.00
+Average Budget: $190,000,000.00
+Profitable Movies: 1
+
+Year: 2014
+Number of Movies: 7
+Average TMDB Rating: 7.40
+Average Revenue: $535,205,160.29
+Average Budget: $128,142,857.14
+Profitable Movies: 7
+
+Year: 2012
+Number of Movies: 1
+Average TMDB Rating: 7.72
+Average Revenue: $1,518,815,515.00
+Average Budget: $220,000,000.00
+Profitable Movies: 1
+
+Year: 2011
+Number of Movies: 2
+Average TMDB Rating: 6.66
+Average Revenue: $747,513,309.00
+Average Budget: $264,500,000.00
+Profitable Movies: 2
+
+Year: 2010
+Number of Movies: 1
+Average TMDB Rating: 8.37
+Average Revenue: $825,532,764.00
+Average Budget: $160,000,000.00
+Profitable Movies: 1
+
+Year: 2009
+Number of Movies: 1
+Average TMDB Rating: 7.39
+Average Revenue: $226,830,568.00
+Average Budget: $25,000,000.00
+Profitable Movies: 1
+
+Year: 2008
+Number of Movies: 1
+Average TMDB Rating: 8.50
+Average Revenue: $1,004,558,444.00
+Average Budget: $185,000,000.00
+Profitable Movies: 1
+
+Year: 2007
+Number of Movies: 1
+Average TMDB Rating: 4.83
+Average Revenue: $5,410,749.00
+Average Budget: $38,000,000.00
+Profitable Movies: 0
+
+Year: 2006
+Number of Movies: 2
+Average TMDB Rating: 7.47
+Average Revenue: $593,177,168.50
+Average Budget: $120,000,000.00
+Profitable Movies: 2
+
+Year: 2003
+Number of Movies: 2
+Average TMDB Rating: 8.14
+Average Revenue: $886,950,101.50
+Average Budget: $117,000,000.00
+Profitable Movies: 2
+
+Year: 2002
+Number of Movies: 1
+Average TMDB Rating: 8.40
+Average Revenue: $926,287,400.00
+Average Budget: $79,000,000.00
+Profitable Movies: 1
+
+Year: 2001
+Number of Movies: 1
+Average TMDB Rating: 8.42
+Average Revenue: $871,368,364.00
+Average Budget: $93,000,000.00
+Profitable Movies: 1
+
+Year: 2000
+Number of Movies: 1
+Average TMDB Rating: 8.20
+Average Revenue: $465,361,176.00
+Average Budget: $103,000,000.00
+Profitable Movies: 1
+
+Year: 1992
+Number of Movies: 1
+Average TMDB Rating: 4.00
+Average Revenue: $0.00
+Average Budget: $0.00
+Profitable Movies: 0
+
+
+2. Rotten Tomatoes Analysis
+-------------------------
+
+Rating Category: Fresh (60-74)
+Number of Movies: 16
+Average Revenue: $235,756,878.75
+
+Rating Category: Fresh (75-100)
+Number of Movies: 36
+Average Revenue: $749,470,491.97
+
+Rating Category: Rotten (<60)
+Number of Movies: 23
+Average Revenue: $390,805,612.70
+
+
+3. Performance Analysis by TMDB Rating
+----------------------------------
+
+Rating Category: Average (6-6.9)
+Number of Movies: 33
+Average Revenue: $146,871,396.21
+Average Budget: $64,128,151.52
+Average ROI: 166.1%
+
+Rating Category: Below Average (<6)
+Number of Movies: 18
+Average Revenue: $3,541,835.33
+Average Budget: $20,542,777.78
+Average ROI: -69.7%
+
+Rating Category: Excellent (8-10)
+Number of Movies: 14
+Average Revenue: $930,321,614.57
+Average Budget: $132,478,571.43
+Average ROI: 580.6%
+
+Rating Category: Good (7-7.9)
+Number of Movies: 50
+Average Revenue: $441,773,600.54
+Average Budget: $102,803,000.00
+Average ROI: 319.6%
+
+
+4. US Market Analysis (with Geonames Data)
+---------------------------------------
+Total Movies: 115.0
+Population: 327,167,434.0
+GDP per capita: $0.00
+Average Movie Rating: 6.92
+Average Movie Revenue: $348,032,102.10
+Average Movie Budget: $82,442,165.22
+Total Box Office Revenue: $40,023,691,742.00
+Movies per Million People: 0.35
+Box Office Revenue per Capita: $122.33
