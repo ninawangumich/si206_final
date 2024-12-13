@@ -61,32 +61,32 @@ def fetch_tmdb_data(process_limit=25):
     count = 0
     page = 1
     
-    # Get current count in database
+    
     c.execute("SELECT COUNT(*) FROM tmdb_movies")
     current_total = c.fetchone()[0]
     print(f"Current total movies in database: {current_total}")
     
-    while count < process_limit:  # Only process 25 movies per run
-        # Get action movies sorted by popularity, paginate through results
+    while count < process_limit:  
+        
         movies = discover.discover_movies({
-            'with_genres': '28',  # Action movies
+            'with_genres': '28',  
             'sort_by': 'popularity.desc',
             'page': page,
-            'vote_count.gte': 100  # Only movies with significant number of votes
+            'vote_count.gte': 100  
         })
         
         if not movies:
             break
             
         for movie_data in movies:
-            if count >= process_limit:  # Stop after processing 25 movies
+            if count >= process_limit:  
                 break
                 
             try:
-                # Get detailed movie info
+                
                 details = movie.details(movie_data.id)
                 
-                # Try to insert movie (IGNORE if already exists)
+                
                 c.execute('''
                 INSERT OR IGNORE INTO tmdb_movies 
                 (tmdb_id, title, release_date, revenue, budget, 
@@ -104,7 +104,7 @@ def fetch_tmdb_data(process_limit=25):
                     'US'
                 ))
                 
-                if c.rowcount > 0:  # Only increment if new movie was added
+                if c.rowcount > 0:  
                     count += 1
                     print(f"Added TMDB movie: {details.title} ({count}/{process_limit})")
                 else:
@@ -114,13 +114,13 @@ def fetch_tmdb_data(process_limit=25):
                 print(f"Error adding TMDB movie: {str(e)}")
                 continue
                 
-            time.sleep(0.5)  # Rate limiting
+            time.sleep(0.5)  
         
-        page += 1  # Move to next page of results
+        page += 1  
     
     conn.commit()
     
-    # Print total count
+   
     c.execute("SELECT COUNT(*) FROM tmdb_movies")
     total = c.fetchone()[0]
     print(f"\nTotal TMDB movies in database: {total}")

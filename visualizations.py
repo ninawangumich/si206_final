@@ -50,7 +50,7 @@ def create_rating_bar_chart():
     """Create a bar chart comparing regional ratings"""
     conn = sqlite3.connect('movies.db')
     
-    # Get unique regions that have data
+    
     query_regions = '''
     SELECT DISTINCT us_region
     FROM regions
@@ -64,7 +64,7 @@ def create_rating_bar_chart():
         print("No data available for ratings bar chart")
         return
     
-    # Get population data for available regions
+    
     query_pop = '''
     SELECT 
         us_region,
@@ -78,7 +78,7 @@ def create_rating_bar_chart():
     
     pop_data = pd.read_sql_query(query_pop, conn)
     
-    # Get base movie stats
+    
     query = '''
     SELECT 
         AVG(mr.tmdb_rating) as avg_rating,
@@ -99,7 +99,7 @@ def create_rating_bar_chart():
     
     base_rating = float(base_stats['avg_rating'].iloc[0])
     
-    # Create variations only for available regions
+    
     variations = {}
     for region in regions['us_region']:
         if region == 'Northeast':
@@ -111,7 +111,7 @@ def create_rating_bar_chart():
         elif region == 'West':
             variations[region] = base_rating * 1.02
     
-    # Create DataFrame only for available regions
+   
     df = pd.DataFrame({
         'us_region': list(variations.keys()),
         'avg_rating': list(variations.values()),
