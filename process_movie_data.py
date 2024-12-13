@@ -69,7 +69,6 @@ def calculate_movie_stats():
     us_query = '''
     SELECT 
         reg.population,
-        reg.gdp_per_capita,
         COUNT(m.id) as total_movies,
         AVG(r.revenue) as avg_revenue,
         AVG(r.budget) as avg_budget,
@@ -150,7 +149,6 @@ def calculate_movie_stats():
             row = us_stats.iloc[0]
             f.write(f"Total Movies: {row['total_movies']}\n")
             f.write(f"Population: {row['population']:,}\n")
-            f.write(f"GDP per capita: ${row['gdp_per_capita']:,.2f}\n")
             f.write(f"Average Movie Rating: {row['avg_rating']:.2f}\n")
             f.write(f"Average Movie Revenue: ${row['avg_revenue']:,.2f}\n")
             f.write(f"Average Movie Budget: ${row['avg_budget']:,.2f}\n")
