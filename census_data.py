@@ -161,7 +161,7 @@ def fetch_population_data():
             print(f"Total rows processed in this run: {rows_processed}")
             
             
-            with open('demographic_analysis.txt', 'w') as f:
+            with open('census.txt', 'w') as f:
                 f.write("Regional Population Analysis with Demographics (2021)\n")
                 f.write("===============================================\n\n")
                 f.write(f"Total US Population: {total_us_population:,}\n")

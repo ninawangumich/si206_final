@@ -2,6 +2,10 @@ import sqlite3
 import pandas as pd
 from datetime import datetime
 
+    #requirement of two tables sharing an integer key, movies.id = movie_ratings.movie_id, allowing us to join movie information
+    
+    #first example of calculating something, which are avg ratings, revenue, budget, JOIN is also used here
+
 def calculate_movie_stats():
     """Calculate various statistics from the movie data"""
     conn = sqlite3.connect('movies.db')
@@ -15,7 +19,11 @@ def calculate_movie_stats():
         AVG(r.budget) as avg_budget,
         SUM(CASE WHEN r.revenue > r.budget THEN 1 ELSE 0 END) as profitable_movies
     FROM movies m
+<<<<<<< HEAD
     JOIN movie_ratings r ON m.id = r.movie_id
+=======
+    JOIN movie_ratings r ON m.id = r.movie_id 
+>>>>>>> b070efd685bb62b5e9bcacfd6aa0bd0671ac16f9
     WHERE m.release_date IS NOT NULL
     GROUP BY release_year
     ORDER BY release_year DESC
