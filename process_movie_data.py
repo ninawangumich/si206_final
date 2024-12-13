@@ -6,7 +6,6 @@ def calculate_movie_stats():
     """Calculate various statistics from the movie data"""
     conn = sqlite3.connect('movies.db')
     
-    # Calculate average ratings and revenue stats using JOIN
     query = '''
     SELECT 
         strftime('%Y', m.release_date) as release_year,
@@ -24,7 +23,6 @@ def calculate_movie_stats():
     
     yearly_stats = pd.read_sql_query(query, conn)
     
-    # Calculate Rotten Tomatoes stats
     rt_query = '''
     SELECT 
         CASE 
@@ -42,7 +40,6 @@ def calculate_movie_stats():
     
     rt_stats = pd.read_sql_query(rt_query, conn)
     
-    # Calculate box office performance by rating
     performance_query = '''
     SELECT 
         CASE 
@@ -65,7 +62,6 @@ def calculate_movie_stats():
     
     performance_stats = pd.read_sql_query(performance_query, conn)
     
-    # Get US market analysis
     us_query = '''
     SELECT 
         reg.population,
@@ -82,7 +78,6 @@ def calculate_movie_stats():
     
     us_stats = pd.read_sql_query(us_query, conn)
     
-    # Add US regional analysis
     regional_query = '''
     SELECT 
         COALESCE(r.us_region, 'National') as region,
@@ -109,7 +104,6 @@ def calculate_movie_stats():
     
     conn.close()
     
-    # Write results to file
     with open('movie_analysis_results.txt', 'w') as f:
         f.write("US Action Movies Analysis Results\n")
         f.write("===============================\n\n")
