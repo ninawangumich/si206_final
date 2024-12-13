@@ -6,9 +6,6 @@ def calculate_movie_stats():
     """Calculate various statistics from the movie data"""
     conn = sqlite3.connect('movies.db')
     
-    #requirement of two tables sharing an integer key, movies.id = movie_ratings.movie_id, allowing us to join movie information
-    
-    #first example of calculating something, which are avg ratings, revenue, budget
     query = '''
     SELECT 
         strftime('%Y', m.release_date) as release_year,
@@ -18,8 +15,7 @@ def calculate_movie_stats():
         AVG(r.budget) as avg_budget,
         SUM(CASE WHEN r.revenue > r.budget THEN 1 ELSE 0 END) as profitable_movies
     FROM movies m
-    #used join to get the movie_ratings table
-    JOIN movie_ratings r ON m.id = r.movie_id 
+    JOIN movie_ratings r ON m.id = r.movie_id
     WHERE m.release_date IS NOT NULL
     GROUP BY release_year
     ORDER BY release_year DESC
@@ -27,7 +23,6 @@ def calculate_movie_stats():
     
     yearly_stats = pd.read_sql_query(query, conn)
     
-    #second example of calculating something, which is rotten tomatoes rating
     rt_query = '''
     SELECT 
         CASE 
@@ -93,7 +88,7 @@ def calculate_movie_stats():
         SUM(mr.revenue) as total_revenue,
         r.population
     FROM regions r
-    LEFT JOIN movies m ON m.region = r.country_code  
+    LEFT JOIN movies m ON m.region = r.country_code
     LEFT JOIN movie_ratings mr ON m.id = mr.movie_id
     WHERE r.country_code = 'US'
     GROUP BY r.us_region
@@ -152,7 +147,7 @@ def calculate_movie_stats():
             f.write(f"Average Movie Revenue: ${row['avg_revenue']:,.2f}\n")
             f.write(f"Average Movie Budget: ${row['avg_budget']:,.2f}\n")
             f.write(f"Total Box Office Revenue: ${row['total_revenue']:,.2f}\n")
-            
+
             movies_per_million = (row['total_movies'] / row['population']) * 1000000
             revenue_per_capita = row['total_revenue'] / row['population']
             f.write(f"Movies per Million People: {movies_per_million:.2f}\n")
@@ -177,6 +172,57 @@ def calculate_movie_stats():
                 f.write(f"Revenue per Capita: ${revenue_per_capita:.2f}\n")
     
     print("Analysis complete! Results written to 'movie_analysis_results.txt'")
+
+def scrape_imdb_top_movies():
+    """Scrape top movies from IMDB"""
+    conn = sqlite3.connect('movies.db')
+    
+    # Check existing count
+    current_count = conn.execute("SELECT COUNT(*) FROM scraped_movies").fetchone()[0]
+    
+    # Only fetch up to 25 new movies per run
+    movies_to_fetch = min(25, 100 - current_count)
+    
+    if movies_to_fetch <= 0:
+        print(f"Already have {current_count} movies from IMDB")
+        return
+        
+    # Scraping logic here using BeautifulSoup
+    # Store in a new table like:
+    '''
+    CREATE TABLE scraped_movies (
+        id INTEGER PRIMARY KEY,
+        imdb_id TEXT UNIQUE,
+        title TEXT,
+        year INTEGER,
+        rating FLOAT,
+        # other relevant fields...
+    )
+    '''
+
+def fetch_omdb_movies():
+    """Fetch movies from OMDB API"""
+    conn = sqlite3.connect('movies.db')
+    
+    current_count = conn.execute("SELECT COUNT(*) FROM omdb_movies").fetchone()[0]
+    movies_to_fetch = min(25, 100 - current_count)
+    
+    if movies_to_fetch <= 0:
+        print(f"Already have {current_count} movies from OMDB")
+        return
+        
+    # OMDB API calls here
+    # Store in a new table like:
+    '''
+    CREATE TABLE omdb_movies (
+        id INTEGER PRIMARY KEY,
+        imdb_id TEXT UNIQUE,
+        title TEXT,
+        year INTEGER,
+        rating TEXT,
+        # other relevant fields...
+    )
+    '''
 
 if __name__ == "__main__":
     calculate_movie_stats() 

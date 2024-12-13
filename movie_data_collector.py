@@ -52,60 +52,80 @@ def init_db():
     conn.commit()
     conn.close()
 
-#Store 100 movies in tmdb_movies
-def fetch_tmdb_data(limit=25):
-    """Fetch TMDB movies focusing on financial data"""
+#Store 100+ movies in tmdb_movies but only process 25 at a time
+def fetch_tmdb_data(process_limit=25):
+    """Fetch TMDB movies focusing on financial data. 
+    Processes 25 movies per run but can store 100+ total in database."""
     conn = sqlite3.connect('movies.db')
     c = conn.cursor()
     count = 0
+    page = 1
     
+    # Get current count in database
+    c.execute("SELECT COUNT(*) FROM tmdb_movies")
+    current_total = c.fetchone()[0]
+    print(f"Current total movies in database: {current_total}")
     
-    movies = discover.discover_movies({
-        'with_genres': '28',  
-        'sort_by': 'popularity.desc'
-    })
-    
-    for movie_data in movies:
-        if count >= limit:
+    while count < process_limit:  # Only process 25 movies per run
+        # Get action movies sorted by popularity, paginate through results
+        movies = discover.discover_movies({
+            'with_genres': '28',  # Action movies
+            'sort_by': 'popularity.desc',
+            'page': page,
+            'vote_count.gte': 100  # Only movies with significant number of votes
+        })
+        
+        if not movies:
             break
             
-        try:
-            
-            details = movie.details(movie_data.id)
-            
-            c.execute('''
-            INSERT OR IGNORE INTO tmdb_movies 
-            (tmdb_id, title, release_date, revenue, budget, 
-             tmdb_rating, tmdb_votes, tmdb_popularity, region)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-            ''', (
-                details.id,
-                details.title,
-                details.release_date,
-                getattr(details, 'revenue', 0),
-                getattr(details, 'budget', 0),
-                getattr(details, 'vote_average', 0),
-                getattr(details, 'vote_count', 0),
-                getattr(details, 'popularity', 0),
-                'US'
-            ))
-            
-            if c.rowcount > 0:
-                count += 1
-                print(f"Added TMDB movie: {details.title} ({count}/{limit})")
+        for movie_data in movies:
+            if count >= process_limit:  # Stop after processing 25 movies
+                break
                 
-        except Exception as e:
-            print(f"Error adding TMDB movie: {str(e)}")
-            continue
-            
-        time.sleep(0.5)  
+            try:
+                # Get detailed movie info
+                details = movie.details(movie_data.id)
+                
+                # Try to insert movie (IGNORE if already exists)
+                c.execute('''
+                INSERT OR IGNORE INTO tmdb_movies 
+                (tmdb_id, title, release_date, revenue, budget, 
+                 tmdb_rating, tmdb_votes, tmdb_popularity, region)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ''', (
+                    details.id,
+                    details.title,
+                    details.release_date,
+                    getattr(details, 'revenue', 0),
+                    getattr(details, 'budget', 0),
+                    getattr(details, 'vote_average', 0),
+                    getattr(details, 'vote_count', 0),
+                    getattr(details, 'popularity', 0),
+                    'US'
+                ))
+                
+                if c.rowcount > 0:  # Only increment if new movie was added
+                    count += 1
+                    print(f"Added TMDB movie: {details.title} ({count}/{process_limit})")
+                else:
+                    print(f"Movie already exists: {details.title}")
+                    
+            except Exception as e:
+                print(f"Error adding TMDB movie: {str(e)}")
+                continue
+                
+            time.sleep(0.5)  # Rate limiting
+        
+        page += 1  # Move to next page of results
     
     conn.commit()
     
-    
+    # Print total count
     c.execute("SELECT COUNT(*) FROM tmdb_movies")
     total = c.fetchone()[0]
     print(f"\nTotal TMDB movies in database: {total}")
+    print(f"Processed {count} new movies this run")
+    print(f"Run this script {max(0, (100 - total + process_limit - 1) // process_limit)} more times to reach 100+ movies")
     
     conn.close()
     return count
