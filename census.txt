@@ -1,0 +1,485 @@
+Regional Population Analysis with Demographics (2021)
+===============================================
+
+Total US Population: 331,223,695
+--------------------------------------------------
+
+Regional Population Summary:
+--------------------------------------------------
+Northeast: 57,159,838 (17.3% of US)
+Midwest: 68,841,444 (20.8% of US)
+South: 126,555,279 (38.2% of US)
+West: 78,667,134 (23.8% of US)
+
+Detailed Population and Demographic Breakdown by Region:
+======================================================================
+
+Northeast Region:
+Total Population: 57,159,838
+
+States and Demographics:
+
+  Connecticut (CT):
+  Total Population: 3,605,597 (6.3% of region)
+  Age Demographics:
+    Age Under 5: 219,941 (6.1%)
+    Age 5-9: 223,547 (6.2%)
+    Age 10-14: 230,758 (6.4%)
+    Age 15-17: 137,012 (3.8%)
+    Age 18-19: 90,139 (2.5%)
+
+  Maine (ME):
+  Total Population: 1,372,247 (2.4% of region)
+  Age Demographics:
+    Age Under 5: 83,707 (6.1%)
+    Age 5-9: 85,079 (6.2%)
+    Age 10-14: 87,823 (6.4%)
+    Age 15-17: 52,145 (3.8%)
+    Age 18-19: 34,306 (2.5%)
+
+  Massachusetts (MA):
+  Total Population: 6,984,723 (12.2% of region)
+  Age Demographics:
+    Age Under 5: 426,068 (6.1%)
+    Age 5-9: 433,052 (6.2%)
+    Age 10-14: 447,022 (6.4%)
+    Age 15-17: 265,419 (3.8%)
+    Age 18-19: 174,618 (2.5%)
+
+  New Hampshire (NH):
+  Total Population: 1,388,992 (2.4% of region)
+  Age Demographics:
+    Age Under 5: 84,728 (6.1%)
+    Age 5-9: 86,117 (6.2%)
+    Age 10-14: 88,895 (6.4%)
+    Age 15-17: 52,781 (3.8%)
+    Age 18-19: 34,724 (2.5%)
+
+  New Jersey (NJ):
+  Total Population: 9,267,130 (16.2% of region)
+  Age Demographics:
+    Age Under 5: 565,294 (6.1%)
+    Age 5-9: 574,562 (6.2%)
+    Age 10-14: 593,096 (6.4%)
+    Age 15-17: 352,150 (3.8%)
+    Age 18-19: 231,678 (2.5%)
+
+  New York (NY):
+  Total Population: 19,835,913 (34.7% of region)
+  Age Demographics:
+    Age Under 5: 1,209,990 (6.1%)
+    Age 5-9: 1,229,826 (6.2%)
+    Age 10-14: 1,269,498 (6.4%)
+    Age 15-17: 753,764 (3.8%)
+    Age 18-19: 495,897 (2.5%)
+
+  Pennsylvania (PA):
+  Total Population: 12,964,056 (22.7% of region)
+  Age Demographics:
+    Age Under 5: 790,807 (6.1%)
+    Age 5-9: 803,771 (6.2%)
+    Age 10-14: 829,699 (6.4%)
+    Age 15-17: 492,634 (3.8%)
+    Age 18-19: 324,101 (2.5%)
+
+  Rhode Island (RI):
+  Total Population: 1,095,610 (1.9% of region)
+  Age Demographics:
+    Age Under 5: 66,832 (6.1%)
+    Age 5-9: 67,927 (6.2%)
+    Age 10-14: 70,119 (6.4%)
+    Age 15-17: 41,633 (3.8%)
+    Age 18-19: 27,390 (2.5%)
+
+  Vermont (VT):
+  Total Population: 645,570 (1.1% of region)
+  Age Demographics:
+    Age Under 5: 39,379 (6.1%)
+    Age 5-9: 40,025 (6.2%)
+    Age 10-14: 41,316 (6.4%)
+    Age 15-17: 24,531 (3.8%)
+    Age 18-19: 16,139 (2.5%)
+
+Midwest Region:
+Total Population: 68,841,444
+
+States and Demographics:
+
+  Illinois (IL):
+  Total Population: 12,671,469 (18.4% of region)
+  Age Demographics:
+    Age Under 5: 772,959 (6.1%)
+    Age 5-9: 785,631 (6.2%)
+    Age 10-14: 810,974 (6.4%)
+    Age 15-17: 481,515 (3.8%)
+    Age 18-19: 316,786 (2.5%)
+
+  Indiana (IN):
+  Total Population: 6,805,985 (9.9% of region)
+  Age Demographics:
+    Age Under 5: 415,165 (6.1%)
+    Age 5-9: 421,971 (6.2%)
+    Age 10-14: 435,583 (6.4%)
+    Age 15-17: 258,627 (3.8%)
+    Age 18-19: 170,149 (2.5%)
+
+  Iowa (IA):
+  Total Population: 3,193,079 (4.6% of region)
+  Age Demographics:
+    Age Under 5: 194,777 (6.1%)
+    Age 5-9: 197,970 (6.2%)
+    Age 10-14: 204,357 (6.4%)
+    Age 15-17: 121,337 (3.8%)
+    Age 18-19: 79,826 (2.5%)
+
+  Kansas (KS):
+  Total Population: 2,934,582 (4.3% of region)
+  Age Demographics:
+    Age Under 5: 179,009 (6.1%)
+    Age 5-9: 181,944 (6.2%)
+    Age 10-14: 187,813 (6.4%)
+    Age 15-17: 111,514 (3.8%)
+    Age 18-19: 73,364 (2.5%)
+
+  Michigan (MI):
+  Total Population: 10,050,811 (14.6% of region)
+  Age Demographics:
+    Age Under 5: 613,099 (6.1%)
+    Age 5-9: 623,150 (6.2%)
+    Age 10-14: 643,251 (6.4%)
+    Age 15-17: 381,930 (3.8%)
+    Age 18-19: 251,270 (2.5%)
+
+  Minnesota (MN):
+  Total Population: 5,707,390 (8.3% of region)
+  Age Demographics:
+    Age Under 5: 348,150 (6.1%)
+    Age 5-9: 353,858 (6.2%)
+    Age 10-14: 365,272 (6.4%)
+    Age 15-17: 216,880 (3.8%)
+    Age 18-19: 142,684 (2.5%)
+
+  Missouri (MO):
+  Total Population: 6,168,187 (9.0% of region)
+  Age Demographics:
+    Age Under 5: 376,259 (6.1%)
+    Age 5-9: 382,427 (6.2%)
+    Age 10-14: 394,763 (6.4%)
+    Age 15-17: 234,391 (3.8%)
+    Age 18-19: 154,204 (2.5%)
+
+  Nebraska (NE):
+  Total Population: 1,963,692 (2.9% of region)
+  Age Demographics:
+    Age Under 5: 119,785 (6.1%)
+    Age 5-9: 121,748 (6.2%)
+    Age 10-14: 125,676 (6.4%)
+    Age 15-17: 74,620 (3.8%)
+    Age 18-19: 49,092 (2.5%)
+
+  North Dakota (ND):
+  Total Population: 774,948 (1.1% of region)
+  Age Demographics:
+    Age Under 5: 47,271 (6.1%)
+    Age 5-9: 48,046 (6.2%)
+    Age 10-14: 49,596 (6.4%)
+    Age 15-17: 29,448 (3.8%)
+    Age 18-19: 19,373 (2.5%)
+
+  Ohio (OH):
+  Total Population: 11,780,017 (17.1% of region)
+  Age Demographics:
+    Age Under 5: 718,581 (6.1%)
+    Age 5-9: 730,361 (6.2%)
+    Age 10-14: 753,921 (6.4%)
+    Age 15-17: 447,640 (3.8%)
+    Age 18-19: 294,500 (2.5%)
+
+  South Dakota (SD):
+  Total Population: 895,376 (1.3% of region)
+  Age Demographics:
+    Age Under 5: 54,617 (6.1%)
+    Age 5-9: 55,513 (6.2%)
+    Age 10-14: 57,304 (6.4%)
+    Age 15-17: 34,024 (3.8%)
+    Age 18-19: 22,384 (2.5%)
+
+  Wisconsin (WI):
+  Total Population: 5,895,908 (8.6% of region)
+  Age Demographics:
+    Age Under 5: 359,650 (6.1%)
+    Age 5-9: 365,546 (6.2%)
+    Age 10-14: 377,338 (6.4%)
+    Age 15-17: 224,044 (3.8%)
+    Age 18-19: 147,397 (2.5%)
+
+South Region:
+Total Population: 126,555,279
+
+States and Demographics:
+
+  Alabama (AL):
+  Total Population: 5,039,877 (4.0% of region)
+  Age Demographics:
+    Age Under 5: 307,432 (6.1%)
+    Age 5-9: 312,472 (6.2%)
+    Age 10-14: 322,552 (6.4%)
+    Age 15-17: 191,515 (3.8%)
+    Age 18-19: 125,996 (2.5%)
+
+  Arkansas (AR):
+  Total Population: 3,025,891 (2.4% of region)
+  Age Demographics:
+    Age Under 5: 184,579 (6.1%)
+    Age 5-9: 187,605 (6.2%)
+    Age 10-14: 193,657 (6.4%)
+    Age 15-17: 114,983 (3.8%)
+    Age 18-19: 75,647 (2.5%)
+
+  Delaware (DE):
+  Total Population: 1,003,384 (0.8% of region)
+  Age Demographics:
+    Age Under 5: 61,206 (6.1%)
+    Age 5-9: 62,209 (6.2%)
+    Age 10-14: 64,216 (6.4%)
+    Age 15-17: 38,128 (3.8%)
+    Age 18-19: 25,084 (2.5%)
+
+  Florida (FL):
+  Total Population: 21,781,128 (17.2% of region)
+  Age Demographics:
+    Age Under 5: 1,328,648 (6.1%)
+    Age 5-9: 1,350,429 (6.2%)
+    Age 10-14: 1,393,992 (6.4%)
+    Age 15-17: 827,682 (3.8%)
+    Age 18-19: 544,528 (2.5%)
+
+  Georgia (GA):
+  Total Population: 10,799,566 (8.5% of region)
+  Age Demographics:
+    Age Under 5: 658,773 (6.1%)
+    Age 5-9: 669,573 (6.2%)
+    Age 10-14: 691,172 (6.4%)
+    Age 15-17: 410,383 (3.8%)
+    Age 18-19: 269,989 (2.5%)
+
+  Kentucky (KY):
+  Total Population: 4,509,394 (3.6% of region)
+  Age Demographics:
+    Age Under 5: 275,073 (6.1%)
+    Age 5-9: 279,582 (6.2%)
+    Age 10-14: 288,601 (6.4%)
+    Age 15-17: 171,356 (3.8%)
+    Age 18-19: 112,734 (2.5%)
+
+  Louisiana (LA):
+  Total Population: 4,624,047 (3.7% of region)
+  Age Demographics:
+    Age Under 5: 282,066 (6.1%)
+    Age 5-9: 286,690 (6.2%)
+    Age 10-14: 295,939 (6.4%)
+    Age 15-17: 175,713 (3.8%)
+    Age 18-19: 115,601 (2.5%)
+
+  Maryland (MD):
+  Total Population: 6,165,129 (4.9% of region)
+  Age Demographics:
+    Age Under 5: 376,072 (6.1%)
+    Age 5-9: 382,237 (6.2%)
+    Age 10-14: 394,568 (6.4%)
+    Age 15-17: 234,274 (3.8%)
+    Age 18-19: 154,128 (2.5%)
+
+  Mississippi (MS):
+  Total Population: 2,949,965 (2.3% of region)
+  Age Demographics:
+    Age Under 5: 179,947 (6.1%)
+    Age 5-9: 182,897 (6.2%)
+    Age 10-14: 188,797 (6.4%)
+    Age 15-17: 112,098 (3.8%)
+    Age 18-19: 73,749 (2.5%)
+
+  North Carolina (NC):
+  Total Population: 10,551,162 (8.3% of region)
+  Age Demographics:
+    Age Under 5: 643,620 (6.1%)
+    Age 5-9: 654,172 (6.2%)
+    Age 10-14: 675,274 (6.4%)
+    Age 15-17: 400,944 (3.8%)
+    Age 18-19: 263,779 (2.5%)
+
+  Oklahoma (OK):
+  Total Population: 3,986,639 (3.2% of region)
+  Age Demographics:
+    Age Under 5: 243,184 (6.1%)
+    Age 5-9: 247,171 (6.2%)
+    Age 10-14: 255,144 (6.4%)
+    Age 15-17: 151,492 (3.8%)
+    Age 18-19: 99,665 (2.5%)
+
+  South Carolina (SC):
+  Total Population: 5,190,705 (4.1% of region)
+  Age Demographics:
+    Age Under 5: 316,633 (6.1%)
+    Age 5-9: 321,823 (6.2%)
+    Age 10-14: 332,205 (6.4%)
+    Age 15-17: 197,246 (3.8%)
+    Age 18-19: 129,767 (2.5%)
+
+  Tennessee (TN):
+  Total Population: 6,975,218 (5.5% of region)
+  Age Demographics:
+    Age Under 5: 425,488 (6.1%)
+    Age 5-9: 432,463 (6.2%)
+    Age 10-14: 446,413 (6.4%)
+    Age 15-17: 265,058 (3.8%)
+    Age 18-19: 174,380 (2.5%)
+
+  Texas (TX):
+  Total Population: 29,527,941 (23.3% of region)
+  Age Demographics:
+    Age Under 5: 1,801,204 (6.1%)
+    Age 5-9: 1,830,732 (6.2%)
+    Age 10-14: 1,889,788 (6.4%)
+    Age 15-17: 1,122,061 (3.8%)
+    Age 18-19: 738,198 (2.5%)
+
+  Virginia (VA):
+  Total Population: 8,642,274 (6.8% of region)
+  Age Demographics:
+    Age Under 5: 527,178 (6.1%)
+    Age 5-9: 535,820 (6.2%)
+    Age 10-14: 553,105 (6.4%)
+    Age 15-17: 328,406 (3.8%)
+    Age 18-19: 216,056 (2.5%)
+
+  West Virginia (WV):
+  Total Population: 1,782,959 (1.4% of region)
+  Age Demographics:
+    Age Under 5: 108,760 (6.1%)
+    Age 5-9: 110,543 (6.2%)
+    Age 10-14: 114,109 (6.4%)
+    Age 15-17: 67,752 (3.8%)
+    Age 18-19: 44,573 (2.5%)
+
+West Region:
+Total Population: 78,667,134
+
+States and Demographics:
+
+  Alaska (AK):
+  Total Population: 732,673 (0.9% of region)
+  Age Demographics:
+    Age Under 5: 44,693 (6.1%)
+    Age 5-9: 45,425 (6.2%)
+    Age 10-14: 46,891 (6.4%)
+    Age 15-17: 27,841 (3.8%)
+    Age 18-19: 18,316 (2.5%)
+
+  Arizona (AZ):
+  Total Population: 7,276,316 (9.2% of region)
+  Age Demographics:
+    Age Under 5: 443,855 (6.1%)
+    Age 5-9: 451,131 (6.2%)
+    Age 10-14: 465,684 (6.4%)
+    Age 15-17: 276,500 (3.8%)
+    Age 18-19: 181,907 (2.5%)
+
+  California (CA):
+  Total Population: 39,237,836 (49.9% of region)
+  Age Demographics:
+    Age Under 5: 2,393,507 (6.1%)
+    Age 5-9: 2,432,745 (6.2%)
+    Age 10-14: 2,511,221 (6.4%)
+    Age 15-17: 1,491,037 (3.8%)
+    Age 18-19: 980,945 (2.5%)
+
+  Colorado (CO):
+  Total Population: 5,812,069 (7.4% of region)
+  Age Demographics:
+    Age Under 5: 354,536 (6.1%)
+    Age 5-9: 360,348 (6.2%)
+    Age 10-14: 371,972 (6.4%)
+    Age 15-17: 220,858 (3.8%)
+    Age 18-19: 145,301 (2.5%)
+
+  Hawaii (HI):
+  Total Population: 1,441,553 (1.8% of region)
+  Age Demographics:
+    Age Under 5: 87,934 (6.1%)
+    Age 5-9: 89,376 (6.2%)
+    Age 10-14: 92,259 (6.4%)
+    Age 15-17: 54,779 (3.8%)
+    Age 18-19: 36,038 (2.5%)
+
+  Idaho (ID):
+  Total Population: 1,900,923 (2.4% of region)
+  Age Demographics:
+    Age Under 5: 115,956 (6.1%)
+    Age 5-9: 117,857 (6.2%)
+    Age 10-14: 121,659 (6.4%)
+    Age 15-17: 72,235 (3.8%)
+    Age 18-19: 47,523 (2.5%)
+
+  Montana (MT):
+  Total Population: 1,104,271 (1.4% of region)
+  Age Demographics:
+    Age Under 5: 67,360 (6.1%)
+    Age 5-9: 68,464 (6.2%)
+    Age 10-14: 70,673 (6.4%)
+    Age 15-17: 41,962 (3.8%)
+    Age 18-19: 27,606 (2.5%)
+
+  Nevada (NV):
+  Total Population: 3,143,991 (4.0% of region)
+  Age Demographics:
+    Age Under 5: 191,783 (6.1%)
+    Age 5-9: 194,927 (6.2%)
+    Age 10-14: 201,215 (6.4%)
+    Age 15-17: 119,471 (3.8%)
+    Age 18-19: 78,599 (2.5%)
+
+  New Mexico (NM):
+  Total Population: 2,115,877 (2.7% of region)
+  Age Demographics:
+    Age Under 5: 129,068 (6.1%)
+    Age 5-9: 131,184 (6.2%)
+    Age 10-14: 135,416 (6.4%)
+    Age 15-17: 80,403 (3.8%)
+    Age 18-19: 52,896 (2.5%)
+
+  Oregon (OR):
+  Total Population: 4,246,155 (5.4% of region)
+  Age Demographics:
+    Age Under 5: 259,015 (6.1%)
+    Age 5-9: 263,261 (6.2%)
+    Age 10-14: 271,753 (6.4%)
+    Age 15-17: 161,353 (3.8%)
+    Age 18-19: 106,153 (2.5%)
+
+  Utah (UT):
+  Total Population: 3,337,975 (4.2% of region)
+  Age Demographics:
+    Age Under 5: 203,616 (6.1%)
+    Age 5-9: 206,954 (6.2%)
+    Age 10-14: 213,630 (6.4%)
+    Age 15-17: 126,843 (3.8%)
+    Age 18-19: 83,449 (2.5%)
+
+  Washington (WA):
+  Total Population: 7,738,692 (9.8% of region)
+  Age Demographics:
+    Age Under 5: 472,060 (6.1%)
+    Age 5-9: 479,798 (6.2%)
+    Age 10-14: 495,276 (6.4%)
+    Age 15-17: 294,070 (3.8%)
+    Age 18-19: 193,467 (2.5%)
+
+  Wyoming (WY):
+  Total Population: 578,803 (0.7% of region)
+  Age Demographics:
+    Age Under 5: 35,306 (6.1%)
+    Age 5-9: 35,885 (6.2%)
+    Age 10-14: 37,043 (6.4%)
+    Age 15-17: 21,994 (3.8%)
+    Age 18-19: 14,470 (2.5%)

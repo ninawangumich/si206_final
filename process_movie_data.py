@@ -19,11 +19,7 @@ def calculate_movie_stats():
         AVG(r.budget) as avg_budget,
         SUM(CASE WHEN r.revenue > r.budget THEN 1 ELSE 0 END) as profitable_movies
     FROM movies m
-<<<<<<< HEAD
-    JOIN movie_ratings r ON m.id = r.movie_id
-=======
     JOIN movie_ratings r ON m.id = r.movie_id 
->>>>>>> b070efd685bb62b5e9bcacfd6aa0bd0671ac16f9
     WHERE m.release_date IS NOT NULL
     GROUP BY release_year
     ORDER BY release_year DESC
@@ -185,18 +181,14 @@ def scrape_imdb_top_movies():
     """Scrape top movies from IMDB"""
     conn = sqlite3.connect('movies.db')
     
-    # Check existing count
     current_count = conn.execute("SELECT COUNT(*) FROM scraped_movies").fetchone()[0]
     
-    # Only fetch up to 25 new movies per run
     movies_to_fetch = min(25, 100 - current_count)
     
     if movies_to_fetch <= 0:
         print(f"Already have {current_count} movies from IMDB")
         return
-        
-    # Scraping logic here using BeautifulSoup
-    # Store in a new table like:
+
     '''
     CREATE TABLE scraped_movies (
         id INTEGER PRIMARY KEY,
@@ -220,7 +212,7 @@ def fetch_omdb_movies():
         return
         
     # OMDB API calls here
-    # Store in a new table like:
+
     '''
     CREATE TABLE omdb_movies (
         id INTEGER PRIMARY KEY,
