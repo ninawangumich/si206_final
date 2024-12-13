@@ -8,7 +8,7 @@ def create_revenue_pie_chart():
     """Create a pie chart showing total revenue contribution by region"""
     conn = sqlite3.connect('movies.db')
     
-    # Get total revenue and population by region
+    
     query = '''
     WITH RegionPopulation AS (
         SELECT us_region, SUM(population) as total_pop
@@ -32,7 +32,7 @@ def create_revenue_pie_chart():
     df = pd.read_sql_query(query, conn)
     conn.close()
     
-    # Create custom colors
+    
     colors = ['#FF9999', '#66B2FF', '#99FF99', '#FFCC99']
     
     plt.figure(figsize=(10, 8))
@@ -40,7 +40,7 @@ def create_revenue_pie_chart():
             colors=colors, startangle=90)
     plt.title('Estimated Regional Distribution of Movie Revenue\n(Based on Population)', pad=20)
     
-    # Add a legend
+    
     plt.legend(title="Regions", bbox_to_anchor=(1.2, 0.5), loc="center right")
     
     plt.savefig('revenue_pie_chart.png', bbox_inches='tight')
@@ -50,7 +50,7 @@ def create_rating_bar_chart():
     """Create a bar chart comparing regional ratings"""
     conn = sqlite3.connect('movies.db')
     
-    # Get base movie ratings
+    
     query = '''
     SELECT 
         AVG(mr.tmdb_rating) as avg_rating,
@@ -64,7 +64,7 @@ def create_rating_bar_chart():
     
     base_stats = pd.read_sql_query(query, conn)
     
-    # Get regional population data
+    
     query_regions = '''
     SELECT 
         us_region,
@@ -83,18 +83,18 @@ def create_rating_bar_chart():
         print("No data available for ratings bar chart")
         return
         
-    # Calculate regional variations (using population density and regional factors)
+    
     base_rating = float(base_stats['avg_rating'].iloc[0])
     
-    # Create regional variations based on characteristics
+    
     variations = {
-        'Northeast': base_rating * 1.05,  # Higher population density might lead to more diverse ratings
-        'Midwest': base_rating * 0.98,    # More conservative ratings
-        'South': base_rating * 0.95,      # Generally more critical ratings
-        'West': base_rating * 1.02        # More liberal ratings
+        'Northeast': base_rating * 1.05,  
+        'Midwest': base_rating * 0.98,    
+        'South': base_rating * 0.95,      
+        'West': base_rating * 1.02        
     }
     
-    # Create DataFrame with variations
+    
     df = pd.DataFrame({
         'us_region': list(variations.keys()),
         'avg_rating': list(variations.values()),
@@ -102,24 +102,24 @@ def create_rating_bar_chart():
         'movie_count': regions.apply(lambda x: round(base_stats['movie_count'].iloc[0] * (x['pop_percentage']/100)), axis=1)
     })
     
-    # Print the data for verification
+    
     print("\nRatings Distribution:")
     print(df)
     
-    # Create gradient colors
+    
     colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4']
     
     plt.figure(figsize=(12, 6))
     
-    # Create the bar chart
+    
     bars = plt.bar(df['us_region'], df['avg_rating'], color=colors)
     
-    # Customize the chart
+    
     plt.title('Average Movie Ratings by Region\n(Adjusted for Regional Characteristics)', pad=20)
     plt.xlabel('Region')
     plt.ylabel('Average Rating')
     
-    # Add value labels on top of bars
+    
     for bar in bars:
         height = bar.get_height()
         idx = bars.index(bar)
@@ -136,7 +136,7 @@ def create_ratings_heatmap():
     """Create a heatmap of movie ratings across regions"""
     conn = sqlite3.connect('movies.db')
     
-    # Get ratings distribution weighted by regional population
+    
     query = '''
     WITH RegionPopulation AS (
         SELECT us_region, SUM(population) as total_pop
@@ -169,10 +169,10 @@ def create_ratings_heatmap():
     df = pd.read_sql_query(query, conn)
     conn.close()
     
-    # Pivot the data for the heatmap
+    
     pivot_table = df.pivot(index='us_region', columns='rating_category', values='weighted_count')
     
-    # Create a custom colormap
+    
     colors = ['#FFF3B0', '#FFB4B0', '#FF7C7C', '#FF4646']
     cmap = LinearSegmentedColormap.from_list('custom', colors)
     
@@ -190,7 +190,7 @@ def create_financial_line_graph():
     """Create a line graph showing financial trends over time"""
     conn = sqlite3.connect('movies.db')
     
-    # Get financial data by year
+    
     query = '''
     SELECT 
         strftime('%Y', m.release_date) as year,
@@ -210,7 +210,7 @@ def create_financial_line_graph():
     
     plt.figure(figsize=(15, 8))
     
-    # Plot multiple lines with different styles
+    
     plt.plot(df['year'], df['avg_revenue'], 'o-', color='#2ecc71', label='Average Revenue', linewidth=2)
     plt.plot(df['year'], df['avg_budget'], 's--', color='#e74c3c', label='Average Budget', linewidth=2)
     plt.plot(df['year'], df['total_revenue'], '^-', color='#3498db', label='Total Revenue', linewidth=2)
@@ -220,10 +220,10 @@ def create_financial_line_graph():
     plt.ylabel('Amount ($)')
     plt.legend()
     
-    # Rotate x-axis labels for better readability
+    
     plt.xticks(rotation=45)
     
-    # Format y-axis labels to show millions/billions
+    
     plt.gca().yaxis.set_major_formatter(plt.FuncFormatter(lambda x, p: f'${x:,.0f}'))
     
     plt.grid(True, linestyle='--', alpha=0.7)
@@ -236,7 +236,7 @@ def create_revenue_scatter_plot():
     """Create a scatter plot showing relationship between ratings and revenue"""
     conn = sqlite3.connect('movies.db')
     
-    # Get data for scatter plot
+    
     query = '''
     SELECT 
         m.title,
@@ -259,7 +259,7 @@ def create_revenue_scatter_plot():
     
     plt.figure(figsize=(12, 8))
     
-    # Create scatter plot
+    
     scatter = plt.scatter(df['tmdb_rating'], df['revenue'], 
                          c=df['budget'], cmap='viridis', 
                          alpha=0.6, s=100)
@@ -270,7 +270,7 @@ def create_revenue_scatter_plot():
     plt.xlabel('TMDB Rating')
     plt.ylabel('Revenue ($)')
     
-    # Format y-axis labels to show millions/billions
+    
     plt.gca().yaxis.set_major_formatter(plt.FuncFormatter(lambda x, p: f'${x:,.0f}'))
     
     plt.grid(True, linestyle='--', alpha=0.3)
