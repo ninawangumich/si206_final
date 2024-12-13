@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 from matplotlib.colors import LinearSegmentedColormap
+import requests
+import json
 
 def create_revenue_pie_chart():
     """Create a pie chart showing total revenue contribution by region"""
@@ -318,5 +320,161 @@ def create_visualizations():
     except Exception as e:
         print(f"Error creating visualizations: {str(e)}")
 
+def init_db():
+    """Initialize the database with tables"""
+    conn = sqlite3.connect('movies.db')
+    cursor = conn.cursor()
+    
+    # Updated regions table to include age_group
+    cursor.execute('''DROP TABLE IF EXISTS regions''')
+    cursor.execute('''
+    CREATE TABLE regions
+                 (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                  country_code TEXT,
+                  state_name TEXT,
+                  us_region TEXT,
+                  state_code TEXT,
+                  age_group TEXT,
+                  population INTEGER,
+                  gdp_per_capita REAL,
+                  UNIQUE(country_code, state_code, age_group))
+    ''')
+    
+    conn.commit()
+    conn.close()
+
+def fetch_population_data():
+    """Fetch population data by state and age group from Census API"""
+    api_key = "9e943855717059bb35eddd4b296651c010db664a"
+    base_url = "https://api.census.gov/data/2021/pep/charage"  # Changed to charage endpoint
+    
+    # Parameters for the API request including age groups
+    params = {
+        "get": "NAME,POP,AGEGROUP",
+        "for": "state:*",
+        "key": api_key
+    }
+    
+    try:
+        response = requests.get(base_url, params=params)
+        print(f"Response status: {response.status_code}")
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            conn = sqlite3.connect('movies.db')
+            cursor = conn.cursor()
+            
+            # Age group mapping
+            age_groups = {
+                '1': '0-4',
+                '2': '5-9',
+                '3': '10-14',
+                '4': '15-19',
+                '5': '20-24',
+                '6': '25-29',
+                '7': '30-34',
+                '8': '35-39',
+                '9': '40-44',
+                '10': '45-49',
+                '11': '50-54',
+                '12': '55-59',
+                '13': '60-64',
+                '14': '65-69',
+                '15': '70-74',
+                '16': '75-79',
+                '17': '80-84',
+                '18': '85+'
+            }
+            
+            # State region mapping (your existing state_info dictionary)
+            state_info = {
+                'Alabama': ('AL', 'South'),
+                # ... (keep your existing state mappings)
+            }
+            
+            # Process each row of data
+            region_populations = {'Northeast': {}, 'Midwest': {}, 'South': {}, 'West': {}}
+            
+            # Skip header row
+            for row in data[1:]:
+                full_state_name = row[0]
+                population = int(row[1])
+                age_group_code = row[2]
+                
+                # Get the state name without any extra text
+                state_name = full_state_name.split(',')[0]
+                
+                if state_name in state_info and age_group_code in age_groups:
+                    state_code, region = state_info[state_name]
+                    age_group = age_groups[age_group_code]
+                    
+                    # Insert data for each state and age group
+                    cursor.execute('''
+                    INSERT OR REPLACE INTO regions 
+                    (country_code, state_name, us_region, state_code, age_group, population)
+                    VALUES (?, ?, ?, ?, ?, ?)
+                    ''', ('US', state_name, region, state_code, age_group, population))
+                    
+                    # Track populations by region and age group
+                    if age_group not in region_populations[region]:
+                        region_populations[region][age_group] = 0
+                    region_populations[region][age_group] += population
+            
+            conn.commit()
+            
+            # Write detailed analysis to file
+            with open('population_analysis.txt', 'w') as f:
+                f.write("Regional Population Analysis by Age Group (2021)\n")
+                f.write("============================================\n\n")
+                
+                total_population = 0
+                
+                for region in ['Northeast', 'Midwest', 'South', 'West']:
+                    f.write(f"\n{region} Region:\n")
+                    f.write("-" * 30 + "\n")
+                    region_total = 0
+                    
+                    # Write age group breakdowns
+                    for age_group in age_groups.values():
+                        cursor.execute('''
+                        SELECT SUM(population)
+                        FROM regions 
+                        WHERE us_region = ? AND age_group = ?
+                        ''', (region, age_group))
+                        pop = cursor.fetchone()[0] or 0
+                        f.write(f"Age {age_group}: {pop:,}\n")
+                        region_total += pop
+                    
+                    f.write(f"\nRegion Total: {region_total:,}\n")
+                    total_population += region_total
+                
+                f.write(f"\nTotal US Population: {total_population:,}\n")
+                
+                # Count total rows
+                cursor.execute("SELECT COUNT(*) FROM regions")
+                total_rows = cursor.fetchone()[0]
+                f.write(f"\nTotal Data Points: {total_rows}\n")
+            
+            print(f"Analysis complete! Total rows in database: {total_rows}")
+            conn.close()
+            
+        else:
+            print(f"Error fetching data: {response.status_code}")
+            print(response.text)
+            
+    except Exception as e:
+        print(f"Error: {str(e)}")
+
+def main():
+    print("Initializing database...")
+    init_db()
+    
+    print("\nFetching population data...")
+    fetch_population_data()
+    
+    print("\nGenerating visualizations...")
+    create_visualizations()
+
 if __name__ == "__main__":
-    create_visualizations() 
+    main() 
