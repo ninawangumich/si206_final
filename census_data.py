@@ -134,29 +134,40 @@ def fetch_population_data():
             
             conn.commit()
             
-            # Print summary of population by region
-            print("\nPopulation Estimates by Region (2021):")
-            print("-" * 50)
-            total_population = 0
+            # Write population data to file
+            with open('population_analysis.txt', 'w') as f:
+                f.write("Regional Population Analysis (2021)\n")
+                f.write("==================================\n\n")
+                f.write("Population Statistics by Region:\n")
+                f.write("-" * 50 + "\n\n")
+                total_population = 0
+                
+                for region in ['Northeast', 'Midwest', 'South', 'West']:
+                    total = region_populations[region]
+                    f.write(f"\n{region} Region:\n")
+                    f.write(f"Total Population: {total:,}\n")
+                    f.write("States:\n")
+                    cursor.execute('''
+                    SELECT state_name, population, state_code
+                    FROM regions 
+                    WHERE us_region = ?
+                    ORDER BY state_name
+                    ''', (region,))
+                    states = cursor.fetchall()
+                    for state_name, pop, state_code in states:
+                        f.write(f"  {state_name} ({state_code}): {pop:,}\n")
+                    total_population += total
+                
+                f.write(f"\nTotal US Population: {total_population:,}\n")
+                
+                # Add some additional statistics
+                f.write("\nAdditional Statistics:\n")
+                f.write("-" * 50 + "\n")
+                for region, pop in region_populations.items():
+                    percentage = (pop / total_population) * 100 if total_population > 0 else 0
+                    f.write(f"{region} Population Percentage: {percentage:.1f}%\n")
             
-            for region in ['Northeast', 'Midwest', 'South', 'West']:
-                total = region_populations[region]
-                print(f"\n{region} Region:")
-                print(f"Total Population: {total:,}")
-                print("States:")
-                cursor.execute('''
-                SELECT state_name, population, state_code
-                FROM regions 
-                WHERE us_region = ?
-                ORDER BY state_name
-                ''', (region,))
-                states = cursor.fetchall()
-                for state_name, pop, state_code in states:
-                    print(f"  {state_name} ({state_code}): {pop:,}")
-                total_population += total
-            
-            print(f"\nTotal US Population: {total_population:,}")
-            
+            print("Population analysis has been written to 'population_analysis.txt'")
             conn.close()
             
         else:

@@ -2,6 +2,80 @@ Regional Population Analysis (2021)
 ==================================
 
 Population Statistics by Region:
+--------------------------------------------------
 
-Total Statistics:
-Total US Population: 0
+
+Northeast Region:
+Total Population: 57,159,838
+States:
+  Connecticut (CT): 3,605,597
+  Maine (ME): 1,372,247
+  Massachusetts (MA): 6,984,723
+  New Hampshire (NH): 1,388,992
+  New Jersey (NJ): 9,267,130
+  New York (NY): 19,835,913
+  Pennsylvania (PA): 12,964,056
+  Rhode Island (RI): 1,095,610
+  Vermont (VT): 645,570
+
+Midwest Region:
+Total Population: 68,841,444
+States:
+  Illinois (IL): 12,671,469
+  Indiana (IN): 6,805,985
+  Iowa (IA): 3,193,079
+  Kansas (KS): 2,934,582
+  Michigan (MI): 10,050,811
+  Minnesota (MN): 5,707,390
+  Missouri (MO): 6,168,187
+  Nebraska (NE): 1,963,692
+  North Dakota (ND): 774,948
+  Ohio (OH): 11,780,017
+  South Dakota (SD): 895,376
+  Wisconsin (WI): 5,895,908
+
+South Region:
+Total Population: 126,555,279
+States:
+  Alabama (AL): 5,039,877
+  Arkansas (AR): 3,025,891
+  Delaware (DE): 1,003,384
+  Florida (FL): 21,781,128
+  Georgia (GA): 10,799,566
+  Kentucky (KY): 4,509,394
+  Louisiana (LA): 4,624,047
+  Maryland (MD): 6,165,129
+  Mississippi (MS): 2,949,965
+  North Carolina (NC): 10,551,162
+  Oklahoma (OK): 3,986,639
+  South Carolina (SC): 5,190,705
+  Tennessee (TN): 6,975,218
+  Texas (TX): 29,527,941
+  Virginia (VA): 8,642,274
+  West Virginia (WV): 1,782,959
+
+West Region:
+Total Population: 78,667,134
+States:
+  Alaska (AK): 732,673
+  Arizona (AZ): 7,276,316
+  California (CA): 39,237,836
+  Colorado (CO): 5,812,069
+  Hawaii (HI): 1,441,553
+  Idaho (ID): 1,900,923
+  Montana (MT): 1,104,271
+  Nevada (NV): 3,143,991
+  New Mexico (NM): 2,115,877
+  Oregon (OR): 4,246,155
+  Utah (UT): 3,337,975
+  Washington (WA): 7,738,692
+  Wyoming (WY): 578,803
+
+Total US Population: 331,223,695
+
+Additional Statistics:
+--------------------------------------------------
+Northeast Population Percentage: 17.3%
+Midwest Population Percentage: 20.8%
+South Population Percentage: 38.2%
+West Population Percentage: 23.8%
