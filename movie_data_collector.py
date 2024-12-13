@@ -6,12 +6,12 @@ from datetime import datetime
 import time
 import json
 
-# API Configuration
+
 TMDB_API_KEY = "f42508b09981d14214b0ab42e41df36f"
 OMDB_API_KEY = "76eadd13"
 OMDB_BASE_URL = "http://www.omdbapi.com/"
 
-# Initialize TMDB
+
 tmdb = TMDb()
 tmdb.api_key = TMDB_API_KEY
 movie = Movie()
@@ -22,7 +22,7 @@ def init_db():
     conn = sqlite3.connect('movies.db')
     c = conn.cursor()
     
-    # TMDB Tables - Focus on financial/popularity data
+    
     c.execute('''CREATE TABLE IF NOT EXISTS tmdb_movies
                  (tmdb_id INTEGER PRIMARY KEY,
                   title TEXT NOT NULL,
@@ -35,7 +35,7 @@ def init_db():
                   region TEXT,
                   UNIQUE(tmdb_id))''')
     
-    # OMDB Table - Focus on awards and critic ratings
+    
     c.execute('''CREATE TABLE IF NOT EXISTS omdb_movies
                  (id INTEGER PRIMARY KEY AUTOINCREMENT,
                   imdb_id TEXT UNIQUE,
@@ -57,9 +57,9 @@ def fetch_tmdb_data(limit=25):
     c = conn.cursor()
     count = 0
     
-    # Get action movies sorted by popularity
+    
     movies = discover.discover_movies({
-        'with_genres': '28',  # Action movies
+        'with_genres': '28',  
         'sort_by': 'popularity.desc'
     })
     
@@ -68,7 +68,7 @@ def fetch_tmdb_data(limit=25):
             break
             
         try:
-            # Get detailed movie info
+            
             details = movie.details(movie_data.id)
             
             c.execute('''
@@ -96,11 +96,11 @@ def fetch_tmdb_data(limit=25):
             print(f"Error adding TMDB movie: {str(e)}")
             continue
             
-        time.sleep(0.5)  # Rate limiting
+        time.sleep(0.5)  
     
     conn.commit()
     
-    # Print total count
+    
     c.execute("SELECT COUNT(*) FROM tmdb_movies")
     total = c.fetchone()[0]
     print(f"\nTotal TMDB movies in database: {total}")
@@ -114,7 +114,7 @@ def fetch_omdb_data(limit=25):
     c = conn.cursor()
     count = 0
     
-    # Search by year to get different movies
+    
     current_year = datetime.now().year
     for year in range(current_year, current_year-10, -1):
         if count >= limit:
@@ -137,7 +137,7 @@ def fetch_omdb_data(limit=25):
                     if count >= limit:
                         break
                     
-                    # Get detailed movie info
+                    
                     detail_params = {
                         'apikey': OMDB_API_KEY,
                         'i': movie['imdbID']
@@ -147,7 +147,7 @@ def fetch_omdb_data(limit=25):
                     detail_response.raise_for_status()
                     movie_data = detail_response.json()
                     
-                    # Get Rotten Tomatoes rating
+                    
                     rt_rating = 'N/A'
                     metacritic = 'N/A'
                     for rating in movie_data.get('Ratings', []):
@@ -180,7 +180,7 @@ def fetch_omdb_data(limit=25):
                     except Exception as e:
                         print(f"Error adding OMDB movie: {str(e)}")
                     
-                    time.sleep(1)  # Rate limiting
+                    time.sleep(1)  
                     
         except Exception as e:
             print(f"Error fetching OMDB data: {str(e)}")
@@ -188,7 +188,7 @@ def fetch_omdb_data(limit=25):
     
     conn.commit()
     
-    # Print total count
+    
     c.execute("SELECT COUNT(*) FROM omdb_movies")
     total = c.fetchone()[0]
     print(f"\nTotal OMDB movies in database: {total}")

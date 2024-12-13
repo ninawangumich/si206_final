@@ -26,7 +26,7 @@ def init_db():
     conn.commit()
     conn.close()
 
-# Define age groups with their percentages
+
 age_groups = {
     'Age Under 5': ('0-4', 6.1),
     'Age 5-9': ('5-9', 6.2),
@@ -35,7 +35,7 @@ age_groups = {
     'Age 18-19': ('18-19', 2.5)
 }
 
-# State info dictionary
+
 state_info = {
     'Alabama': ('AL', 'South'),
     'Alaska': ('AK', 'West'),
@@ -114,13 +114,13 @@ def fetch_population_data():
             
             print("\nProcessing state data...")
             
-            # Process each state's data
+            
             region_populations = {'Northeast': 0, 'Midwest': 0, 'South': 0, 'West': 0}
             state_populations = {}
             total_us_population = 0
             
-            # First pass: collect all state populations
-            for row in data[1:]:  # Skip header row
+            
+            for row in data[1:]:  
                 full_state_name = row[0]
                 state_population = int(row[1])
                 state_name = full_state_name.split(',')[0]
@@ -131,14 +131,14 @@ def fetch_population_data():
                     state_populations[state_name] = state_population
                     total_us_population += state_population
             
-            # Write demographic analysis to file
+           
             with open('demographic_analysis.txt', 'w') as f:
                 f.write("Regional Population Analysis with Demographics (2021)\n")
                 f.write("===============================================\n\n")
                 f.write(f"Total US Population: {total_us_population:,}\n")
                 f.write("-" * 50 + "\n\n")
                 
-                # Write regional summary
+                
                 f.write("Regional Population Summary:\n")
                 f.write("-" * 50 + "\n")
                 for region in ['Northeast', 'Midwest', 'South', 'West']:
@@ -146,7 +146,7 @@ def fetch_population_data():
                     region_percentage = (region_total / total_us_population) * 100
                     f.write(f"{region}: {region_total:,} ({region_percentage:.1f}% of US)\n")
                 
-                # Write detailed breakdown with demographics
+                
                 f.write("\nDetailed Population and Demographic Breakdown by Region:\n")
                 f.write("=" * 70 + "\n")
                 
@@ -156,7 +156,7 @@ def fetch_population_data():
                     f.write(f"Total Population: {region_total:,}\n\n")
                     f.write("States and Demographics:\n")
                     
-                    # Get all states in this region
+                    
                     states_in_region = [(name, code) for name, (code, reg) in state_info.items() if reg == region]
                     for state_name, state_code in sorted(states_in_region):
                         state_pop = state_populations[state_name]
@@ -164,20 +164,20 @@ def fetch_population_data():
                         f.write(f"\n  {state_name} ({state_code}):\n")
                         f.write(f"  Total Population: {state_pop:,} ({state_percentage:.1f}% of region)\n")
                         
-                        # Add age demographic breakdown
+                        
                         f.write("  Age Demographics:\n")
                         for age_group, (_, percentage) in age_groups.items():
                             age_pop = int(state_pop * (percentage / 100))
                             f.write(f"    {age_group}: {age_pop:,} ({percentage:.1f}%)\n")
                             
-                            # Store in database
+                            
                             cursor.execute('''
                             INSERT OR REPLACE INTO regions 
                             (country_code, state_name, us_region, state_code, population, age_group, age_population, percentage_of_state)
                             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                             ''', ('US', state_name, region, state_code, state_pop, age_group, age_pop, percentage))
                 
-                # Add US age demographic summary
+                
                 f.write("\nUS Age Demographics Summary:\n")
                 f.write("=" * 50 + "\n")
                 for age_group, (_, percentage) in age_groups.items():
