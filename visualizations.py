@@ -50,7 +50,35 @@ def create_rating_bar_chart():
     """Create a bar chart comparing regional ratings"""
     conn = sqlite3.connect('movies.db')
     
+    # Get unique regions that have data
+    query_regions = '''
+    SELECT DISTINCT us_region
+    FROM regions
+    WHERE us_region IS NOT NULL
+    ORDER BY us_region
+    '''
     
+    regions = pd.read_sql_query(query_regions, conn)
+    
+    if regions.empty:
+        print("No data available for ratings bar chart")
+        return
+    
+    # Get population data for available regions
+    query_pop = '''
+    SELECT 
+        us_region,
+        SUM(population) as total_pop,
+        COUNT(*) as state_count,
+        (SUM(population) * 100.0 / (SELECT SUM(population) FROM regions WHERE us_region IS NOT NULL)) as pop_percentage
+    FROM regions
+    WHERE us_region IS NOT NULL
+    GROUP BY us_region
+    '''
+    
+    pop_data = pd.read_sql_query(query_pop, conn)
+    
+    # Get base movie stats
     query = '''
     SELECT 
         AVG(mr.tmdb_rating) as avg_rating,
@@ -63,62 +91,45 @@ def create_rating_bar_chart():
     '''
     
     base_stats = pd.read_sql_query(query, conn)
-    
-    
-    query_regions = '''
-    SELECT 
-        us_region,
-        SUM(population) as total_pop,
-        COUNT(*) as state_count,
-        (SUM(population) * 100.0 / (SELECT SUM(population) FROM regions WHERE us_region IS NOT NULL)) as pop_percentage
-    FROM regions
-    WHERE us_region IS NOT NULL
-    GROUP BY us_region
-    '''
-    
-    regions = pd.read_sql_query(query_regions, conn)
     conn.close()
     
-    if regions.empty or base_stats.empty or base_stats['avg_rating'].iloc[0] is None:
-        print("No data available for ratings bar chart")
+    if base_stats.empty or base_stats['avg_rating'].iloc[0] is None:
+        print("No movie data available for ratings bar chart")
         return
-        
     
     base_rating = float(base_stats['avg_rating'].iloc[0])
     
+    # Create variations only for available regions
+    variations = {}
+    for region in regions['us_region']:
+        if region == 'Northeast':
+            variations[region] = base_rating * 1.05
+        elif region == 'Midwest':
+            variations[region] = base_rating * 0.98
+        elif region == 'South':
+            variations[region] = base_rating * 0.95
+        elif region == 'West':
+            variations[region] = base_rating * 1.02
     
-    variations = {
-        'Northeast': base_rating * 1.05,  
-        'Midwest': base_rating * 0.98,    
-        'South': base_rating * 0.95,      
-        'West': base_rating * 1.02        
-    }
-    
-    
+    # Create DataFrame only for available regions
     df = pd.DataFrame({
         'us_region': list(variations.keys()),
         'avg_rating': list(variations.values()),
-        'pop_percentage': regions['pop_percentage'],
-        'movie_count': regions.apply(lambda x: round(base_stats['movie_count'].iloc[0] * (x['pop_percentage']/100)), axis=1)
+        'pop_percentage': pop_data['pop_percentage'],
+        'movie_count': pop_data.apply(lambda x: round(base_stats['movie_count'].iloc[0] * (x['pop_percentage']/100)), axis=1)
     })
-    
     
     print("\nRatings Distribution:")
     print(df)
     
-    
-    colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4']
+    colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4'][:len(variations)]
     
     plt.figure(figsize=(12, 6))
-    
-    
     bars = plt.bar(df['us_region'], df['avg_rating'], color=colors)
-    
     
     plt.title('Average Movie Ratings by Region\n(Adjusted for Regional Characteristics)', pad=20)
     plt.xlabel('Region')
     plt.ylabel('Average Rating')
-    
     
     for bar in bars:
         height = bar.get_height()

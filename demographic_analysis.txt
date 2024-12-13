@@ -483,11 +483,3 @@ States and Demographics:
     Age 10-14: 37,043 (6.4%)
     Age 15-17: 21,994 (3.8%)
     Age 18-19: 14,470 (2.5%)
-
-US Age Demographics Summary:
-==================================================
-Age Under 5: 20,204,645 (6.1% of total population)
-Age 5-9: 20,535,869 (6.2% of total population)
-Age 10-14: 21,198,316 (6.4% of total population)
-Age 15-17: 12,586,500 (3.8% of total population)
-Age 18-19: 8,280,592 (2.5% of total population)

@@ -94,13 +94,18 @@ def fetch_population_data():
     api_key = "9e943855717059bb35eddd4b296651c010db664a"
     base_url = "https://api.census.gov/data/2021/pep/population"
     
-    params = {
-        "get": "NAME,POP_2021",
-        "for": "state:*",
-        "key": api_key
-    }
+    #Store 100 states in chunks of 25
+    chunk_size = 25
+    all_data = []
     
     try:
+        
+        params = {
+            "get": "NAME,POP_2021",
+            "for": "state:*",
+            "key": api_key
+        }
+        
         response = requests.get(base_url, params=params)
         print("\nFetching Census Population Estimates data...")
         print(f"Response status: {response.status_code}")
@@ -109,29 +114,53 @@ def fetch_population_data():
             print("\nData received successfully!")
             data = response.json()
             
+            
+            state_chunks = [data[i:i + chunk_size] for i in range(1, len(data), chunk_size)]
+            
             conn = sqlite3.connect('movies.db')
             cursor = conn.cursor()
             
-            print("\nProcessing state data...")
-            
+            print("\nProcessing state data in chunks...")
             
             region_populations = {'Northeast': 0, 'Midwest': 0, 'South': 0, 'West': 0}
             state_populations = {}
             total_us_population = 0
+            rows_processed = 0
             
-            
-            for row in data[1:]:  
-                full_state_name = row[0]
-                state_population = int(row[1])
-                state_name = full_state_name.split(',')[0]
+            for chunk_index, chunk in enumerate(state_chunks):
+                print(f"\nProcessing chunk {chunk_index + 1} ({len(chunk)} states)...")
                 
-                if state_name in state_info:
-                    state_code, region = state_info[state_name]
-                    region_populations[region] += state_population
-                    state_populations[state_name] = state_population
-                    total_us_population += state_population
+                for row in chunk:
+                    full_state_name = row[0]
+                    state_population = int(row[1])
+                    state_name = full_state_name.split(',')[0]
+                    
+                    if state_name in state_info:
+                        state_code, region = state_info[state_name]
+                        region_populations[region] += state_population
+                        state_populations[state_name] = state_population
+                        total_us_population += state_population
+                        
+                        
+                        for age_group, (_, percentage) in age_groups.items():
+                            age_pop = int(state_population * (percentage / 100))
+                            cursor.execute('''
+                            INSERT OR REPLACE INTO regions 
+                            (country_code, state_name, us_region, state_code, population, age_group, age_population, percentage_of_state)
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                            ''', ('US', state_name, region, state_code, state_population, age_group, age_pop, percentage))
+                            rows_processed += 1
+                
+                conn.commit()
+                print(f"Processed {len(chunk)} states in chunk {chunk_index + 1}")
             
-           
+            
+            cursor.execute('SELECT COUNT(*) FROM regions')
+            total_rows = cursor.fetchone()[0]
+            print(f"\nTotal rows stored in database: {total_rows}")
+            print(f"Total rows processed in this run: {rows_processed}")
+            
+            
             with open('demographic_analysis.txt', 'w') as f:
                 f.write("Regional Population Analysis with Demographics (2021)\n")
                 f.write("===============================================\n\n")
@@ -169,20 +198,6 @@ def fetch_population_data():
                         for age_group, (_, percentage) in age_groups.items():
                             age_pop = int(state_pop * (percentage / 100))
                             f.write(f"    {age_group}: {age_pop:,} ({percentage:.1f}%)\n")
-                            
-                            
-                            cursor.execute('''
-                            INSERT OR REPLACE INTO regions 
-                            (country_code, state_name, us_region, state_code, population, age_group, age_population, percentage_of_state)
-                            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                            ''', ('US', state_name, region, state_code, state_pop, age_group, age_pop, percentage))
-                
-                
-                f.write("\nUS Age Demographics Summary:\n")
-                f.write("=" * 50 + "\n")
-                for age_group, (_, percentage) in age_groups.items():
-                    us_age_pop = int(total_us_population * (percentage / 100))
-                    f.write(f"{age_group}: {us_age_pop:,} ({percentage:.1f}% of total population)\n")
             
             conn.commit()
             print(f"Demographic analysis has been written to 'demographic_analysis.txt'")

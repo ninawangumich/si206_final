@@ -6,8 +6,9 @@ from datetime import datetime
 import time
 import json
 
-
+#API 1
 TMDB_API_KEY = "f42508b09981d14214b0ab42e41df36f"
+#API 2
 OMDB_API_KEY = "76eadd13"
 OMDB_BASE_URL = "http://www.omdbapi.com/"
 
@@ -51,6 +52,7 @@ def init_db():
     conn.commit()
     conn.close()
 
+#Store 100 movies in tmdb_movies
 def fetch_tmdb_data(limit=25):
     """Fetch TMDB movies focusing on financial data"""
     conn = sqlite3.connect('movies.db')
@@ -108,6 +110,7 @@ def fetch_tmdb_data(limit=25):
     conn.close()
     return count
 
+#Store 100 movies in omdb_movies
 def fetch_omdb_data(limit=25):
     """Fetch OMDB movies focusing on ratings and awards"""
     conn = sqlite3.connect('movies.db')
