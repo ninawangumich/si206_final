@@ -8,17 +8,16 @@ def create_revenue_pie_chart():
     """Create a pie chart showing total revenue contribution by region"""
     conn = sqlite3.connect('movies.db')
     
-    
     query = '''
     WITH RegionPopulation AS (
-        SELECT us_region, SUM(population) as total_pop
-        FROM regions
-        WHERE us_region IS NOT NULL
-        GROUP BY us_region
+        SELECT rl.region_name, SUM(r.population) as total_pop
+        FROM regions r
+        JOIN region_lookup rl ON r.region_id = rl.region_id
+        GROUP BY rl.region_name
     )
     SELECT 
-        r.us_region,
-        SUM(mr.revenue * (r.total_pop * 1.0 / (SELECT SUM(population) FROM regions WHERE us_region IS NOT NULL))) as estimated_revenue
+        r.region_name,
+        SUM(mr.revenue * (r.total_pop * 1.0 / (SELECT SUM(population) FROM regions))) as estimated_revenue
     FROM RegionPopulation r
     CROSS JOIN (
         SELECT SUM(mr.revenue) as revenue 
@@ -26,20 +25,18 @@ def create_revenue_pie_chart():
         JOIN movie_ratings mr ON m.id = mr.movie_id
         WHERE m.region = 'US'
     ) mr
-    GROUP BY r.us_region
+    GROUP BY r.region_name
     '''
     
     df = pd.read_sql_query(query, conn)
     conn.close()
     
-    
     colors = ['#FF9999', '#66B2FF', '#99FF99', '#FFCC99']
     
     plt.figure(figsize=(10, 8))
-    plt.pie(df['estimated_revenue'], labels=df['us_region'], autopct='%1.1f%%', 
+    plt.pie(df['estimated_revenue'], labels=df['region_name'], autopct='%1.1f%%', 
             colors=colors, startangle=90)
     plt.title('Estimated Regional Distribution of Movie Revenue\n(Based on Population)', pad=20)
-    
     
     plt.legend(title="Regions", bbox_to_anchor=(1.2, 0.5), loc="center right")
     
@@ -50,12 +47,10 @@ def create_rating_bar_chart():
     """Create a bar chart comparing regional ratings"""
     conn = sqlite3.connect('movies.db')
     
-    
     query_regions = '''
-    SELECT DISTINCT us_region
-    FROM regions
-    WHERE us_region IS NOT NULL
-    ORDER BY us_region
+    SELECT DISTINCT region_name
+    FROM region_lookup
+    ORDER BY region_name
     '''
     
     regions = pd.read_sql_query(query_regions, conn)
@@ -64,20 +59,18 @@ def create_rating_bar_chart():
         print("No data available for ratings bar chart")
         return
     
-    
     query_pop = '''
     SELECT 
-        us_region,
-        SUM(population) as total_pop,
-        COUNT(*) as state_count,
-        (SUM(population) * 100.0 / (SELECT SUM(population) FROM regions WHERE us_region IS NOT NULL)) as pop_percentage
-    FROM regions
-    WHERE us_region IS NOT NULL
-    GROUP BY us_region
+        rl.region_name,
+        SUM(r.population) as total_pop,
+        COUNT(DISTINCT r.state_id) as state_count,
+        (SUM(r.population) * 100.0 / (SELECT SUM(population) FROM regions)) as pop_percentage
+    FROM regions r
+    JOIN region_lookup rl ON r.region_id = rl.region_id
+    GROUP BY rl.region_name
     '''
     
     pop_data = pd.read_sql_query(query_pop, conn)
-    
     
     query = '''
     SELECT 
@@ -99,9 +92,8 @@ def create_rating_bar_chart():
     
     base_rating = float(base_stats['avg_rating'].iloc[0])
     
-    
     variations = {}
-    for region in regions['us_region']:
+    for region in regions['region_name']:
         if region == 'Northeast':
             variations[region] = base_rating * 1.05
         elif region == 'Midwest':
@@ -111,9 +103,8 @@ def create_rating_bar_chart():
         elif region == 'West':
             variations[region] = base_rating * 1.02
     
-   
     df = pd.DataFrame({
-        'us_region': list(variations.keys()),
+        'region_name': list(variations.keys()),
         'avg_rating': list(variations.values()),
         'pop_percentage': pop_data['pop_percentage'],
         'movie_count': pop_data.apply(lambda x: round(base_stats['movie_count'].iloc[0] * (x['pop_percentage']/100)), axis=1)
@@ -125,7 +116,7 @@ def create_rating_bar_chart():
     colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4'][:len(variations)]
     
     plt.figure(figsize=(12, 6))
-    bars = plt.bar(df['us_region'], df['avg_rating'], color=colors)
+    bars = plt.bar(df['region_name'], df['avg_rating'], color=colors)
     
     plt.title('Average Movie Ratings by Region\n(Adjusted for Regional Characteristics)', pad=20)
     plt.xlabel('Region')
@@ -147,13 +138,12 @@ def create_ratings_heatmap():
     """Create a heatmap of movie ratings across regions"""
     conn = sqlite3.connect('movies.db')
     
-    
     query = '''
     WITH RegionPopulation AS (
-        SELECT us_region, SUM(population) as total_pop
-        FROM regions
-        WHERE us_region IS NOT NULL
-        GROUP BY us_region
+        SELECT rl.region_name, SUM(r.population) as total_pop
+        FROM regions r
+        JOIN region_lookup rl ON r.region_id = rl.region_id
+        GROUP BY rl.region_name
     ),
     RatingCategories AS (
         SELECT 
@@ -169,20 +159,18 @@ def create_ratings_heatmap():
         WHERE m.region = 'US'
     )
     SELECT 
-        r.us_region,
+        r.region_name,
         rc.rating_category,
-        COUNT(*) * (r.total_pop * 1.0 / (SELECT SUM(population) FROM regions WHERE us_region IS NOT NULL)) as weighted_count
+        COUNT(*) * (r.total_pop * 1.0 / (SELECT SUM(population) FROM regions)) as weighted_count
     FROM RegionPopulation r
     CROSS JOIN RatingCategories rc
-    GROUP BY r.us_region, rc.rating_category
+    GROUP BY r.region_name, rc.rating_category
     '''
     
     df = pd.read_sql_query(query, conn)
     conn.close()
     
-    
-    pivot_table = df.pivot(index='us_region', columns='rating_category', values='weighted_count')
-    
+    pivot_table = df.pivot(index='region_name', columns='rating_category', values='weighted_count')
     
     colors = ['#FFF3B0', '#FFB4B0', '#FF7C7C', '#FF4646']
     cmap = LinearSegmentedColormap.from_list('custom', colors)
@@ -200,7 +188,6 @@ def create_ratings_heatmap():
 def create_financial_line_graph():
     """Create a line graph showing financial trends over time"""
     conn = sqlite3.connect('movies.db')
-    
     
     query = '''
     SELECT 
@@ -221,7 +208,6 @@ def create_financial_line_graph():
     
     plt.figure(figsize=(15, 8))
     
-    
     plt.plot(df['year'], df['avg_revenue'], 'o-', color='#2ecc71', label='Average Revenue', linewidth=2)
     plt.plot(df['year'], df['avg_budget'], 's--', color='#e74c3c', label='Average Budget', linewidth=2)
     plt.plot(df['year'], df['total_revenue'], '^-', color='#3498db', label='Total Revenue', linewidth=2)
@@ -231,9 +217,7 @@ def create_financial_line_graph():
     plt.ylabel('Amount ($)')
     plt.legend()
     
-    
     plt.xticks(rotation=45)
-    
     
     plt.gca().yaxis.set_major_formatter(plt.FuncFormatter(lambda x, p: f'${x:,.0f}'))
     
@@ -246,7 +230,6 @@ def create_financial_line_graph():
 def create_revenue_scatter_plot():
     """Create a scatter plot showing relationship between ratings and revenue"""
     conn = sqlite3.connect('movies.db')
-    
     
     query = '''
     SELECT 
@@ -270,7 +253,6 @@ def create_revenue_scatter_plot():
     
     plt.figure(figsize=(12, 8))
     
-    
     scatter = plt.scatter(df['tmdb_rating'], df['revenue'], 
                          c=df['budget'], cmap='viridis', 
                          alpha=0.6, s=100)
@@ -280,7 +262,6 @@ def create_revenue_scatter_plot():
     plt.title('Movie Revenue vs. TMDB Rating\n(Color indicates Budget)', pad=20)
     plt.xlabel('TMDB Rating')
     plt.ylabel('Revenue ($)')
-    
     
     plt.gca().yaxis.set_major_formatter(plt.FuncFormatter(lambda x, p: f'${x:,.0f}'))
     

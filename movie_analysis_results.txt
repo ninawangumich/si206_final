@@ -191,55 +191,55 @@ Average ROI: 305.0%
 
 4. US Market Analysis (with Geonames Data)
 ---------------------------------------
-Total Movies: 28750.0
-Population: 732,673.0
+Total Movies: 115.0
+Population: 190,453,624,625.0
 Average Movie Rating: 6.97
 Average Movie Revenue: $348,481,759.69
 Average Movie Budget: $82,442,165.22
 Total Box Office Revenue: $10,018,850,591,000.00
-Movies per Million People: 39239.88
-Box Office Revenue per Capita: $13674382.15
+Movies per Million People: 0.00
+Box Office Revenue per Capita: $52.61
 
 
 4. US Regional Analysis
 --------------------
 
 Region: Midwest
-Population: 3,193,079
+Population: 774,948
 Number of Movies: 115
 Average Rating: 6.97
 Average Revenue: $348,481,759.69
 Average Budget: $82,442,165.22
 Total Revenue: $2,404,524,141,840.00
-Movies per Million People: 36.02
-Revenue per Capita: $753042.48
+Movies per Million People: 148.40
+Revenue per Capita: $3102819.99
 
 Region: Northeast
-Population: 3,605,597
+Population: 645,570
 Number of Movies: 115
 Average Rating: 6.97
 Average Revenue: $348,481,759.69
 Average Budget: $82,442,165.22
 Total Revenue: $1,803,393,106,380.00
-Movies per Million People: 31.89
-Revenue per Capita: $500164.91
+Movies per Million People: 178.14
+Revenue per Capita: $2793489.64
 
 Region: South
-Population: 5,039,877
+Population: 1,003,384
 Number of Movies: 115
 Average Rating: 6.97
 Average Revenue: $348,481,759.69
 Average Budget: $82,442,165.22
 Total Revenue: $3,206,032,189,120.00
-Movies per Million People: 22.82
-Revenue per Capita: $636133.02
+Movies per Million People: 114.61
+Revenue per Capita: $3195219.57
 
 Region: West
-Population: 732,673
+Population: 578,803
 Number of Movies: 115
 Average Rating: 6.97
 Average Revenue: $348,481,759.69
 Average Budget: $82,442,165.22
 Total Revenue: $2,604,901,153,660.00
-Movies per Million People: 156.96
-Revenue per Capita: $3555339.36
+Movies per Million People: 198.69
+Revenue per Capita: $4500496.98

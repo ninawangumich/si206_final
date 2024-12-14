@@ -4,24 +4,54 @@ import json
 from visualizations import create_visualizations
 
 def init_db():
-    """Initialize the database with tables"""
+    """Initialize the database with normalized tables"""
     conn = sqlite3.connect('movies.db')
     cursor = conn.cursor()
     
+    
     cursor.execute('''DROP TABLE IF EXISTS regions''')
+    cursor.execute('''DROP TABLE IF EXISTS state_lookup''')
+    cursor.execute('''DROP TABLE IF EXISTS region_lookup''')
+    
+    
+    cursor.execute('''
+    CREATE TABLE state_lookup
+                 (state_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                  state_name TEXT UNIQUE,
+                  state_code TEXT UNIQUE)
+    ''')
+    
+    
+    cursor.execute('''
+    CREATE TABLE region_lookup
+                 (region_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                  region_name TEXT UNIQUE)
+    ''')
+    
+    
     cursor.execute('''
     CREATE TABLE regions
                  (id INTEGER PRIMARY KEY AUTOINCREMENT,
-                  country_code TEXT,
-                  state_name TEXT,
-                  us_region TEXT,
-                  state_code TEXT,
+                  state_id INTEGER,
+                  region_id INTEGER,
                   population INTEGER,
                   age_group TEXT,
                   age_population INTEGER,
                   percentage_of_state REAL,
-                  UNIQUE(country_code, state_code, age_group))
+                  FOREIGN KEY (state_id) REFERENCES state_lookup(state_id),
+                  FOREIGN KEY (region_id) REFERENCES region_lookup(region_id),
+                  UNIQUE(state_id, age_group))
     ''')
+    
+    
+    unique_regions = {'Northeast', 'Midwest', 'South', 'West'}
+    for region in unique_regions:
+        cursor.execute('INSERT INTO region_lookup (region_name) VALUES (?)', (region,))
+    
+    
+    for state_name, (state_code, _) in state_info.items():
+        cursor.execute('INSERT INTO state_lookup (state_name, state_code) VALUES (?, ?)',
+                      (state_name, state_code))
     
     conn.commit()
     conn.close()
@@ -94,12 +124,10 @@ def fetch_population_data():
     api_key = "9e943855717059bb35eddd4b296651c010db664a"
     base_url = "https://api.census.gov/data/2021/pep/population"
     
-    #Store 100 states in chunks of 25
     chunk_size = 25
     all_data = []
     
     try:
-        
         params = {
             "get": "NAME,POP_2021",
             "for": "state:*",
@@ -114,11 +142,16 @@ def fetch_population_data():
             print("\nData received successfully!")
             data = response.json()
             
-            
             state_chunks = [data[i:i + chunk_size] for i in range(1, len(data), chunk_size)]
             
             conn = sqlite3.connect('movies.db')
             cursor = conn.cursor()
+            
+            cursor.execute('SELECT state_id, state_name FROM state_lookup')
+            state_id_map = {name: id for id, name in cursor.fetchall()}
+            
+            cursor.execute('SELECT region_id, region_name FROM region_lookup')
+            region_id_map = {name: id for id, name in cursor.fetchall()}
             
             print("\nProcessing state data in chunks...")
             
@@ -141,19 +174,28 @@ def fetch_population_data():
                         state_populations[state_name] = state_population
                         total_us_population += state_population
                         
+                        state_id = state_id_map[state_name]
+                        region_id = region_id_map[region]
                         
                         for age_group, (_, percentage) in age_groups.items():
                             age_pop = int(state_population * (percentage / 100))
                             cursor.execute('''
                             INSERT OR REPLACE INTO regions 
-                            (country_code, state_name, us_region, state_code, population, age_group, age_population, percentage_of_state)
-                            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                            ''', ('US', state_name, region, state_code, state_population, age_group, age_pop, percentage))
+                            (state_id, region_id, population, age_group, age_population, percentage_of_state)
+                            VALUES (?, ?, ?, ?, ?, ?)
+                            ''', (state_id, region_id, state_population, age_group, age_pop, percentage))
                             rows_processed += 1
                 
                 conn.commit()
                 print(f"Processed {len(chunk)} states in chunk {chunk_index + 1}")
             
+            
+            cursor.execute('''
+                SELECT r.*, sl.state_name, sl.state_code, rl.region_name 
+                FROM regions r
+                JOIN state_lookup sl ON r.state_id = sl.state_id
+                JOIN region_lookup rl ON r.region_id = rl.region_id
+            ''')
             
             cursor.execute('SELECT COUNT(*) FROM regions')
             total_rows = cursor.fetchone()[0]

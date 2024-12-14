@@ -3,7 +3,7 @@ import pandas as pd
 from datetime import datetime
 
     #requirement of two tables sharing an integer key, movies.id = movie_ratings.movie_id, allowing us to join movie information
-    
+
     #first example of calculating something, which are avg ratings, revenue, budget, JOIN is also used here
 
 def calculate_movie_stats():
@@ -68,23 +68,22 @@ def calculate_movie_stats():
     
     us_query = '''
     SELECT 
-        reg.population,
-        COUNT(m.id) as total_movies,
-        AVG(r.revenue) as avg_revenue,
-        AVG(r.budget) as avg_budget,
-        AVG(r.tmdb_rating) as avg_rating,
-        SUM(r.revenue) as total_revenue
-    FROM regions reg
-    LEFT JOIN movies m ON m.region = reg.country_code
-    LEFT JOIN movie_ratings r ON m.id = r.movie_id
-    WHERE reg.country_code = 'US'
+        SUM(r.population) as population,
+        COUNT(DISTINCT m.id) as total_movies,
+        AVG(mr.revenue) as avg_revenue,
+        AVG(mr.budget) as avg_budget,
+        AVG(mr.tmdb_rating) as avg_rating,
+        SUM(mr.revenue) as total_revenue
+    FROM regions r
+    LEFT JOIN movies m ON m.region = 'US'
+    LEFT JOIN movie_ratings mr ON m.id = mr.movie_id
     '''
     
     us_stats = pd.read_sql_query(us_query, conn)
     
     regional_query = '''
     SELECT 
-        COALESCE(r.us_region, 'National') as region,
+        COALESCE(rl.region_name, 'National') as region,
         COUNT(DISTINCT m.id) as movie_count,
         AVG(mr.tmdb_rating) as avg_rating,
         AVG(mr.revenue) as avg_revenue,
@@ -92,16 +91,16 @@ def calculate_movie_stats():
         SUM(mr.revenue) as total_revenue,
         r.population
     FROM regions r
-    LEFT JOIN movies m ON m.region = r.country_code
+    JOIN region_lookup rl ON r.region_id = rl.region_id
+    LEFT JOIN movies m ON m.region = 'US'
     LEFT JOIN movie_ratings mr ON m.id = mr.movie_id
-    WHERE r.country_code = 'US'
-    GROUP BY r.us_region
+    GROUP BY rl.region_name
     ORDER BY 
         CASE 
-            WHEN r.us_region IS NULL THEN 0 
+            WHEN rl.region_name IS NULL THEN 0 
             ELSE 1 
         END,
-        r.us_region
+        rl.region_name
     '''
     
     regional_stats = pd.read_sql_query(regional_query, conn)
@@ -211,7 +210,7 @@ def fetch_omdb_movies():
         print(f"Already have {current_count} movies from OMDB")
         return
         
-    # OMDB API calls here
+    
 
     '''
     CREATE TABLE omdb_movies (
