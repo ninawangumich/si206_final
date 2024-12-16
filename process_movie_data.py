@@ -140,7 +140,7 @@ def calculate_movie_stats():
             else:
                 f.write("Average ROI: Not available\n")
         
-        f.write("\n\n4. US Market Analysis (with Geonames Data)\n")
+        f.write("\n\n4. US Market Analysis\n")
         f.write("---------------------------------------\n")
         if not us_stats.empty:
             row = us_stats.iloc[0]

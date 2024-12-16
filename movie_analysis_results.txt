@@ -189,7 +189,7 @@ Average Budget: $100,819,387.76
 Average ROI: 305.0%
 
 
-4. US Market Analysis (with Geonames Data)
+4. US Market Analysis
 ---------------------------------------
 Total Movies: 115.0
 Population: 190,453,624,625.0
